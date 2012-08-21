@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>Welcome to Riddick!</title>
+  </head>
+
+  <body>
+    <h1>Welcome to Riddick!</h1>
+
+    <h2>Custom translations</h2>
+
+    <form action="<%= url('/set') %>" method="post">
+      <input type="text" name="key" />
+      <input type="text" name="value" />
+      <button>Add</button>
+    </form>
+
+    <% if @custom_translations.any? %>
+      <ul class="custom_locales">
+        <% @custom_translations.each_pair do |k, v| %>
+          <li>
+          <%= k %>: <%= v %>
+          <a href="<%= url "del?key=#{URI.escape(k)}&value=#{URI.escape(v)}" %>">Delete<a>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div>Empty</div>
+    <% end %>
+
+    <h2>Predefined translations</h2>
+    <% @predefined_translations.each do |k, v| %>
+      <b><%= k %></b>: &quot;<%= v %>&quot;<br />
+    <% end %>
+  </body>
+</html>
