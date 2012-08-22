@@ -1,0 +1,24 @@
+- Backend configuration:
+  - Simple and KeyValue backends can be configured
+  - If none configured, then determined dynamically
+- Backend other than Redis configurable
+- Specs
+
+- jQuery
+- Bootstrap styles (see Sidekiq for details)
+
+- Pagination for predefined translations
+- Pagination for custom translations
+- Sorting for predefined translations
+- Sorting for custom translations
+- Key deletion per DELETE
+- Key deletion with confirm
+- Success and error messages (incl. validations)
+
+- README with possible problems
+  - yajl
+  - rails (TODO: riddick-rails)
+  - link to RailsCast
+- Travis
+- Code freshness
+- Publish to rubygems
