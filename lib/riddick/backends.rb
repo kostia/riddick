@@ -3,12 +3,14 @@ require 'i18n'
 module Riddick
   module Backends
     class << self
+      attr_writer :simple, :key_value
+
       def simple
-        backends.find { |be| be.kind_of? I18n::Backend::Simple }
+        @simple ||= backends.find { |be| be.kind_of? I18n::Backend::Simple }
       end
 
       def key_value
-        backends.find { |be| be.kind_of? I18n::Backend::KeyValue }
+        @key_value ||= backends.find { |be| be.kind_of? I18n::Backend::KeyValue }
       end
 
       private
