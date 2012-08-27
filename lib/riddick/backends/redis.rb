@@ -1,15 +1,20 @@
 require 'riddick/backends/key_value'
+require 'riddick/backends/redis/value'
 
 module Riddick
   module Backends
     class Redis < Riddick::Backends::KeyValue
-      def delete_translation(key)
-        store.del key
+      def delete_translation(k)
+        store.del k
       end
 
       def translations
         keys = store.keys
-        keys.any? ? Hash[keys.zip store.mget(keys)] : {}
+        if keys.any?
+          Hash[keys.zip store.mget(keys).map { |v| Riddick::Backends::Redis::Value.new v }]
+        else
+          {}
+        end
       end
 
       private

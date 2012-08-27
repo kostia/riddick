@@ -11,26 +11,72 @@ module Riddick
 
     helpers do
       def url(*parts)
-        [request.script_name, parts].join('/').squeeze('/')
+        [request.script_name, parts].join('/').squeeze '/'
+      end
+
+      def root_url
+        url '/'
+      end
+
+      def default_url
+        url 'default'
+      end
+
+      def my_url
+        url 'my'
+      end
+
+      def set_url
+        url 'set'
+      end
+
+      def del_url(k)
+        url('del') + "?k=#{URI.escape k}"
+      end
+
+      def truncate(v, l = 30)
+        s = v.to_s
+        s.size > l ? s.first(l) + '...' : s
       end
     end
 
     get '/' do
-      @predefined_translations = Riddick::Backends.simple.translations
-      @custom_translations = Riddick::Backends.key_value.translations
+      predefined = Riddick::Backends.simple.translations
+      custom = Riddick::Backends.key_value.translations
+      @translations = predefined.merge custom
+      erb :index
+    end
+
+    get '/default' do
+      @translations = Riddick::Backends.simple.translations
+      erb :index
+    end
+
+    get '/my' do
+      @translations = Riddick::Backends.key_value.translations
       erb :index
     end
 
     post '/set' do
-      key, value = params[:key], params[:value]
-      Riddick::Backends.store_translation(key, value) if key && !key.empty? && value && !value.empty?
-      redirect url('/')
+      k, v = params[:k], params[:v]
+      if k && v && !k.empty? && !v.empty?
+        Riddick::Backends.store_translation k, v
+        session[:flash_success] = 'Translation successfully stored!'
+      else
+        session[:flash_error] = 'Error: either path or translation is empty!'
+      end
+      redirect my_url
     end
 
     get '/del' do
-      key = params[:key]
-      Riddick::Backends.delete_translation(key) if key && !key.empty?
-      redirect url('/')
+      k = params[:k]
+      if k && !k.empty?
+        Riddick::Backends.delete_translation k
+        session[:flash_success] = 'Translation successfully deleted!'
+      else
+        session[:flash_error] = 'Error: no such key or key not found!'
+      end
+      redirect(request.referer || root_url)
     end
   end
 end

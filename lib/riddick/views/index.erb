@@ -1,35 +1,96 @@
-<html>
-  <head>
-    <title>Welcome to Riddick!</title>
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome to Riddick!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if IE ]><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><![endif]-->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  <link href="<%= url 'stylesheets/vendor/bootstrap.css' %>" media="all" rel="stylesheet" type="text/css">
+  <link href="<%= url 'stylesheets/vendor/bootstrap-responsive.css' %>" media="all" rel="stylesheet" type="text/css">
+  <link href="<%= url 'stylesheets/vendor/chosen.css' %>" media="all" rel="stylesheet" type="text/css">
+  <link href="<%= url 'stylesheets/riddick.css' %>" media="all" rel="stylesheet" type="text/css">
+</head>
 
-  <body>
-    <h1>Welcome to Riddick!</h1>
+<body>
+  <div class="container">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <a href="<%= root_url %>" class="brand">Riddick</a>
+        <ul class="nav">
+          <li class="<%= 'active' if request.path == root_url %>">
+            <a href="<%= root_url %>">All translations</a>
+          </li>
+          <li class="<%= 'active' if request.path == my_url %>">
+            <a href="<%= my_url %>">My translations</a>
+          </li>
+          <li class="<%= 'active' if request.path == default_url %>">
+            <a href="<%= default_url %>">Default translations</a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-    <h2>Custom translations</h2>
-
-    <form action="<%= url('/set') %>" method="post">
-      <input type="text" name="key" />
-      <input type="text" name="value" />
-      <button>Add</button>
+    <form action="<%= set_url %>" method="post" class="form-horizontal well">
+      <select name="k" data-chosen="chosen" data-for="textarea[name=v]" data-placeholder="en.greeting">
+        <option></option>
+        <% @translations.each do |k, v| %>
+          <option value="<%= k %>" data-v='<%= v %>'><%= k %></option>
+        <% end %>
+      </select>
+      <button type="submit" class="btn btn-success">Change</button><br />
+      <textarea name="v" type="text" placeholder="Hello World!"></textarea>
     </form>
 
-    <% if @custom_translations.any? %>
-      <ul class="custom_locales">
-        <% @custom_translations.each_pair do |k, v| %>
-          <li>
-          <%= k %>: <%= v %>
-          <a href="<%= url "del?key=#{URI.escape(k)}&value=#{URI.escape(v)}" %>">Delete<a>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <div>Empty</div>
+    <% [:flash_success, :flash_error].each do |k| %>
+      <% if v = session.delete(k) %>
+        <div class="alert alert-<%= k.to_s.gsub 'flash_', '' %>"><%= v %></div>
+      <% end %>
     <% end %>
 
-    <h2>Predefined translations</h2>
-    <% @predefined_translations.each do |k, v| %>
-      <b><%= k %></b>: &quot;<%= v %>&quot;<br />
+    <% if @translations.any? %>
+      <table class="table table-striped">
+        <tr><th>Path</th><th>Translation</th><th>Actions</th></tr>
+        <% @translations.each_pair do |k, v| %>
+          <tr>
+            <% if v.kind_of? Riddick::Backends::KeyValue::Value %>
+              <td><span class="badge badge-success"><%= k %></span></td>
+              <td><code>
+                <a rel="popover" data-title="My translation" data-content='<%= v %>'
+                  data-trigger="hover"><%= truncate v %></a>
+              </code></td>
+              <td>
+                <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
+                  class="btn btn-mini">Edit</a>
+                <a href="<%= del_url k %>" data-confirm="Are you sure?"
+                  class="btn btn-mini btn-danger">Delete</a>
+              </td>
+            <% else %>
+              <td><span class="badge"><%= k %></span></td>
+              <td><code>
+                <a rel="popover" data-title="Default translation" data-content='<%= v %>'
+                  data-trigger="hover"><%= truncate v %></a>
+              </code></td>
+              <td>
+                <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
+                  class="btn btn-mini">Edit</a>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <div class="alert alert-info">You have no translations yet.</div>
     <% end %>
-  </body>
+
+    <div class="well"><a href="https://github.com/kostia/riddick">https://github.com/kostia/riddick</a></div>
+  </div>
+
+  <script src="<%= url 'javascripts/vendor/jquery.js' %>" type="text/javascript"></script>
+  <script src="<%= url 'javascripts/vendor/chosen.js' %>" type="text/javascript"></script>
+  <script src="<%= url 'javascripts/vendor/bootstrap.js' %>" type="text/javascript"></script>
+  <script src="<%= url 'javascripts/riddick.js' %>" type="text/javascript"></script>
+</body>
 </html>

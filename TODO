@@ -1,15 +1,9 @@
 - Specs
 
-- jQuery
-- Bootstrap styles (see Sidekiq for details)
-
 - Pagination for predefined translations
 - Pagination for custom translations
 - Sorting for predefined translations
 - Sorting for custom translations
-- Key deletion per DELETE
-- Key deletion with confirm
-- Success and error messages (incl. validations)
 
 - README with possible problems
   - yajl
