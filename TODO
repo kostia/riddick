@@ -1,14 +1,8 @@
 - Specs
 
-- Pagination for predefined translations
-- Pagination for custom translations
-- Sorting for predefined translations
-- Sorting for custom translations
-
 - README with possible problems
   - yajl
-  - rails (TODO: riddick-rails)
+  - rails-initializer
   - link to RailsCast
-- Travis
-- Code freshness
+
 - Publish to rubygems
