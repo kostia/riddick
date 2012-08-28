@@ -1,8 +1,3 @@
-require 'i18n'
-
-require 'riddick/backends/redis'
-require 'riddick/backends/simple'
-
 module Riddick
   module Backends
     class << self

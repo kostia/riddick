@@ -1,5 +1,3 @@
-require 'riddick/backends/key_value/value'
-
 module Riddick
   module Backends
     class Redis < Riddick::Backends::KeyValue

@@ -1,14 +1,14 @@
-require 'i18n'
-
 module Riddick
   module Backends
     class Simple
+      attr_reader :i18n_backend
+
       def initialize(i18n_backend)
         @i18n_backend = i18n_backend
       end
 
       def translations
-        Hash[@i18n_backend.send(:translations)[I18n.locale].riddick_normalize]
+        @i18n_backend.send(:translations)[I18n.locale].riddick_normalize I18n.locale
       end
 
       def init_translations

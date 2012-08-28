@@ -1,9 +1,4 @@
-require 'i18n'
-require 'sinatra'
-
-require 'riddick/backends'
-require 'riddick/hash'
-require 'riddick/version'
+require 'riddick'
 
 module Riddick
   class Server < Sinatra::Base
