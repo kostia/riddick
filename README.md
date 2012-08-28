@@ -1,10 +1,12 @@
 # Riddick
 
-Riddick is a simple Sintra based GUI for Redis-I18n-backend.
-It provides a list of preconfigured translations (via YAML-backend).
-Also you can add your translations to Redis-backend.
+Friendly GUI for managing your I18n translations.
+
+![Screenshot](http://timeworkers-assets.s3.amazonaws.com/riddick.png)
 
 BIG FAT WARNING: It's not for production yet! Please wait till it get tests etc.
+
+## Installation
 
 ```ruby
 # Gemfile
@@ -17,7 +19,28 @@ MyApp::Application.routes.draw do
 end
 
 # app/views/layouts/application.html.erb
-<%= link_to 'Riddick', :riddick %>
+<%= link_to t('.translations'), :riddick %>
+```
+
+## Deployment
+
+Normally your using a proxy server like NGinx or Apache.
+Unfortunately the assets from a mounted Sinatra app will not be served for
+they aren't in the `public` directory of your Rails app. Here is a workaround for a
+deployment with Capistrano:
+
+```ruby
+# config/deploy.rb
+namespace :deploy do
+  task :cp_riddick_assets do
+    target = File.join %W[#{release_path} public riddick]
+    run "cp -r `cd #{release_path} && bundle show riddick`/lib/riddick/public #{target}"
+  end
+end
+
+after :deploy do
+  deploy.cp_riddick_assets
+end
 ```
 
 ## License
