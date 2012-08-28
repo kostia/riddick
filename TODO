@@ -4,5 +4,6 @@
   - yajl
   - rails-initializer
   - link to RailsCast
+  - deployment with rails and nginx
 
 - Publish to rubygems
