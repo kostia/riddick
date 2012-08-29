@@ -64,4 +64,22 @@ describe Riddick::Backends do
       end
     end
   end
+
+  describe '#store_translation' do
+    it 'should store unescaped translation in chain with correctly determined path' do
+      chain = mock
+      Riddick::Backends.chain = chain
+      chain.should_receive(:store_translations).with 'en', {'foo.bar' => 'baz'}, {escape: false}
+      Riddick::Backends.store_translation 'en.foo.bar', 'baz'
+    end
+  end
+
+  describe '#delete_translation' do
+    it 'should delete translation from key value backend' do
+      kv_be = mock
+      Riddick::Backends.key_value = kv_be
+      kv_be.should_receive(:delete_translation).with 'foo.bar'
+      Riddick::Backends.delete_translation 'foo.bar'
+    end
+  end
 end

@@ -1,4 +1,5 @@
 require 'rake'
+require 'yajl'
 
 include Rake::DSL
 

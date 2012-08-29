@@ -8,7 +8,7 @@ module Riddick
       end
 
       def translations
-        @i18n_backend.send(:translations)[I18n.locale].riddick_normalize I18n.locale
+        @i18n_backend.send(:translations)[I18n.locale].riddick_normalize_i18n I18n.locale
       end
 
       def init_translations

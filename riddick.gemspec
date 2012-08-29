@@ -17,7 +17,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'i18n'
   gem.add_dependency 'redis'
   gem.add_dependency 'sinatra'
+  gem.add_development_dependency 'capybara'
   gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rack-test'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'yajl-ruby'
 end
