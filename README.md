@@ -2,6 +2,10 @@
 
 Friendly GUI for managing your I18n translations.
 
+## I18n + Redis + GUI = Riddick
+
+By default it uses Redis as I18n backend for translations, but you can add your own key-value backend.
+
 ![Screenshot](http://timeworkers-assets.s3.amazonaws.com/riddick.png)
 
 ## Installation
