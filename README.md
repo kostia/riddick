@@ -17,7 +17,7 @@ Mount Riddick server:
 # config/routes.rb
 require 'riddick/server'
 MyApp::Application.routes.draw do
-  mount Reddick::Server.new, at: 'riddick', as: 'riddick'
+  mount Riddick::Server.new, at: 'riddick', as: 'riddick'
 end
 ```
 
