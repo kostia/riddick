@@ -4,11 +4,9 @@ Gem::Specification.new do |gem|
   gem.name = 'riddick'
   gem.version = Riddick.version
   gem.description = %{
-    Riddick is a simple Sintra based GUI for Redis-I18n-backend.
-    It provides a list of preconfigured translations (via YAML-backend).
-    Also you can add your translations to Redis-backend.
+    Riddick is a simple Sintra app providing a GUI for key-value-backends for I18n.
   }
-  gem.summary = 'Simple GUI for Redis-I18n-backend'
+  gem.summary = 'Friendly GUI for managing your I18n translations'
   gem.homepage = 'https://github.com/kostia/riddick'
   gem.authors = ['Kostiantyn Kahanskyi']
   gem.email = %w[kostiantyn.kahanskyi@googlemail.com]
