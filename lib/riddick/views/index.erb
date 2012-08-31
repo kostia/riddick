@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Welcome to Riddick!</title>
+  <title><%= I18n.t 'riddick.head.title', default: 'Welcome to Riddick!' %></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--[if IE ]><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><![endif]-->
@@ -18,30 +18,29 @@
   <div class="container">
     <div class="navbar">
       <div class="navbar-inner">
-        <a href="<%= root_url %>" class="brand">Riddick</a>
+        <a href="<%= root_url %>" class="brand"><%= I18n.t 'riddick.nav.brand', default: 'Riddick' %></a>
         <ul class="nav">
           <li class="<%= 'active' if request.path == root_url %>">
-            <a href="<%= root_url %>">All translations</a>
-          </li>
+            <a href="<%= root_url %>"><%= I18n.t 'riddick.nav.all', default: 'All translations' %></a></li>
           <li class="<%= 'active' if request.path == my_url %>">
-            <a href="<%= my_url %>">My translations</a>
-          </li>
+            <a href="<%= my_url %>"><%= I18n.t 'riddick.nav.my', default: 'My translations' %></a></li>
           <li class="<%= 'active' if request.path == default_url %>">
-            <a href="<%= default_url %>">Default translations</a>
-          </li>
+            <a href="<%= default_url %>"><%= I18n.t 'riddick.nav.default', default: 'Default translations' %></a></li>
         </ul>
       </div>
     </div>
 
     <form action="<%= set_url %>" method="post" class="form-horizontal well">
-      <select name="k" data-chosen="chosen" data-for="textarea[name=v]" data-placeholder="en.greeting">
+      <select name="k" data-chosen="chosen" data-for="textarea[name=v]"
+          data-placeholder="<%= I18n.t 'riddick.form.select.placeholder', default: 'en.greeting' %>">
         <option></option>
         <% @translations.each do |k, v| %>
           <option value="<%= k %>" data-v='<%= v %>'><%= k %></option>
         <% end %>
       </select>
-      <button type="submit" class="btn btn-success">Change</button><br />
-      <textarea name="v" type="text" placeholder="Hello World!"></textarea>
+      <button type="submit" class="btn btn-success"><%= I18n.t 'riddick.form.button', default: 'Change' %></button><br />
+      <textarea name="v" type="text"
+          placeholder="<%= I18n.t 'riddick.form.textarea.placeholder', default: 'Hello World!' %>"></textarea>
     </form>
 
     <% [:flash_success, :flash_error].each do |k| %>
@@ -52,37 +51,41 @@
 
     <% if @translations.any? %>
       <table class="table table-striped">
-        <tr><th>Path</th><th>Translation</th><th>Actions</th></tr>
+        <tr>
+          <th><%= I18n.t 'riddick.table.header.path', default: 'Path' %></th>
+          <th><%= I18n.t 'riddick.table.header.translation', default: 'Translation' %></th>
+          <th><%= I18n.t 'riddick.table.header.actions', default: 'Actions' %></th>
+        </tr>
         <% @translations.each_pair do |k, v| %>
           <tr>
             <% if v.kind_of? Riddick::Backends::KeyValue::Value %>
               <td><span class="badge badge-success"><%= k %></span></td>
               <td><code>
-                <a rel="popover" data-title="My translation" data-content='<%= v %>'
-                  data-trigger="hover"><%= truncate v %></a>
+                  <a rel="popover" data-title="<%= I18n.t 'riddick.table.popover.my', default: 'My translation' %>"
+                    data-content='<%= v %>' data-trigger="hover"><%= truncate v %></a>
               </code></td>
               <td>
                 <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
-                  class="btn btn-mini">Edit</a>
-                <a href="<%= del_url k %>" data-confirm="Are you sure?"
-                  class="btn btn-mini btn-danger">Delete</a>
+                  class="btn btn-mini"><%= I18n.t 'riddick.table.edit.my', default: 'Edit' %></a>
+                <a href="<%= del_url k %>" data-confirm="<%= I18n.t 'riddick.table.confirm', default: 'Are you sure?' %>"
+                  class="btn btn-mini btn-danger"><%= I18n.t 'riddick.table.delete', default: 'Delete' %></a>
               </td>
             <% else %>
               <td><span class="badge"><%= k %></span></td>
               <td><code>
-                <a rel="popover" data-title="Default translation" data-content='<%= v %>'
-                  data-trigger="hover"><%= truncate v %></a>
+                <a rel="popover" data-title="<%= I18n.t 'riddick.table.popover.default', default: 'Default translation' %>"
+                  data-content='<%= v %>' data-trigger="hover"><%= truncate v %></a>
               </code></td>
               <td>
                 <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
-                  class="btn btn-mini">Edit</a>
+                  class="btn btn-mini"><%= I18n.t 'riddick.table.edit.default', default: 'Edit' %></a>
               </td>
             <% end %>
           </tr>
         <% end %>
       </table>
     <% else %>
-      <div class="alert alert-info">You have no translations yet.</div>
+      <div class="alert alert-info"><%= I18n.t 'riddick.notice.empty', default: 'You have no translations yet.' %></div>
     <% end %>
 
     <div class="well"><a href="https://github.com/kostia/riddick">https://github.com/kostia/riddick</a></div>

@@ -31,7 +31,7 @@ module Riddick
 
       def truncate(v, l = 30)
         s = v.to_s
-        s.size > l ? s.first(l) + '...' : s
+        s.size > l ? s.first(l) + I18n.t('riddick.truncation', default: '...') : s
       end
     end
 
@@ -56,9 +56,11 @@ module Riddick
       k, v = params[:k], params[:v]
       if k && v && !k.empty? && !v.empty?
         Riddick::Backends.store_translation k, v
-        session[:flash_success] = 'Translation successfully stored!'
+        session[:flash_success] = I18n.t('riddick.notice.set.success',
+                                         default: 'Translation successfully stored!')
       else
-        session[:flash_error] = 'Error: either path or translation is empty!'
+        session[:flash_error] = I18n.t('riddick.notice.set.error',
+                                       default: 'Error: either path or translation is empty!')
       end
       redirect my_url
     end
@@ -67,9 +69,11 @@ module Riddick
       k = params[:k]
       if k && !k.empty?
         Riddick::Backends.delete_translation k
-        session[:flash_success] = 'Translation successfully deleted!'
+        session[:flash_success] = I18n.t('riddick.notice.del.success',
+                                         default: 'Translation successfully deleted!')
       else
-        session[:flash_error] = 'Error: no such key or key not found!'
+        session[:flash_error] = I18n.t('riddick.notice.del.error',
+                                       default: 'Error: no such key or key empty!')
       end
       redirect(request.referer || root_url)
     end

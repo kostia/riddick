@@ -41,6 +41,57 @@ I18n.backend = I18n::Backend::Chain.new I18n::Backend::KeyValue.new(Redis.new), 
 
 Will follow soon...
 
+## Customization
+
+You can also change the translations of Riddick GUI. Following keys can be changed:
+```yaml
+riddick:
+  head:
+    title: 'Welcome to Riddick!'
+  nav:
+    brand: 'Riddick'
+    all: 'All translations'
+    my: 'My translations'
+    default: 'Default translations'
+  form:
+    select:
+      placeholder: 'en.greeting'
+    button: 'Change'
+    textarea:
+      placeholder: 'Hello World!'
+  table:
+    header:
+      path: 'Path'
+      translation: 'Translation'
+      actions: 'Actions'
+    popover:
+      my: 'My translation'
+      default: 'Default translation'
+    edit:
+      my: 'Edit'
+      default: 'Edit'
+    delete: 'Delete'
+    confirm: 'Are you sure?'
+  notice
+    empty: 'You have no translations yet.'
+    set:
+      success: 'Translation successfully stored!'
+      error: 'Error: either path or translation is empty!'
+    del:
+      success: 'Translation successfully deleted!'
+      error: 'Error: no such key or key empty!'
+  truncation: '...'
+```
+
+For example to change the page title of the GUI on the German page:
+```yaml
+# config/locales/riddick.de.yml
+de:
+  riddick:
+    head:
+      title: 'Willkommen bei Riddick!'
+```
+
 ## Troubleshooting
 
 ### JSON decoding errors
