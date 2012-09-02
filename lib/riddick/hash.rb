@@ -1,9 +1,14 @@
 ::Hash
 
+# Extension to the built-in ruby's Hash
 class Hash
+
+  # Return a hash normalized as following: {foo: {bar: 'baz'}} -> {'foo.bar' => 'baz'}.
   def riddick_normalize_i18n(prefix)
     Hash[_riddick_normalize_i18n prefix, self]
   end
+
+  private
 
   def _riddick_normalize_i18n(prefix, hash, lines = [], path = '')
     hash.keys.each do |key|
