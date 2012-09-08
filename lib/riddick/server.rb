@@ -41,11 +41,16 @@ module Riddick
         url('del') + "?k=#{URI.escape k}"
       end
 
+      # Shortcut for namepspaces localization
+      def t(path, default = nil)
+        I18n.t "riddick.#{path}", default: default
+      end
+
       # Truncate a string with default length 30. Truncation string is '...' by default
       # and can be changed by changing the appropriate translation (see README for further details).
       def truncate(v, l = 30)
         s = v.to_s
-        s.size > l ? s.first(l) + I18n.t('riddick.truncation', default: '...') : s
+        s.size > l ? s.first(l) + t('truncation', '...') : s
       end
     end
 
@@ -77,11 +82,9 @@ module Riddick
       k, v = params[:k], params[:v]
       if k && v && !k.empty? && !v.empty?
         Riddick::Backends.store_translation k, v
-        session[:flash_success] = I18n.t('riddick.notice.set.success',
-                                         default: 'Translation successfully stored!')
+        session[:flash_success] = t('notice.set.success', 'Translation successfully stored!')
       else
-        session[:flash_error] = I18n.t('riddick.notice.set.error',
-                                       default: 'Error: either path or translation is empty!')
+        session[:flash_error] = t('notice.set.error', 'Error: either path or translation is empty!')
       end
       redirect my_url
     end
@@ -93,11 +96,9 @@ module Riddick
       k = params[:k]
       if k && !k.empty?
         Riddick::Backends.delete_translation k
-        session[:flash_success] = I18n.t('riddick.notice.del.success',
-                                         default: 'Translation successfully deleted!')
+        session[:flash_success] = t('notice.del.success', 'Translation successfully deleted!')
       else
-        session[:flash_error] = I18n.t('riddick.notice.del.error',
-                                       default: 'Error: no such key or key empty!')
+        session[:flash_error] = t('notice.del.error', 'Error: no such key or key empty!')
       end
       redirect(request.referer || root_url)
     end
