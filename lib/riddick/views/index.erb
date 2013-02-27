@@ -35,7 +35,7 @@
           data-placeholder="<%= t 'form.select.placeholder', 'en.greeting' %>">
         <option></option>
         <% @translations.each do |k, v| %>
-          <option value="<%= k %>" data-v='<%= v %>'><%= k %></option>
+          <option value="<%= h(k) %>" data-v='<%= h(v) %>'><%= h(k) %></option>
         <% end %>
       </select>
       <button type="submit" class="btn btn-success"><%= t 'form.button', 'Change' %></button><br />
@@ -63,12 +63,14 @@
             <% if v.kind_of? Riddick::Backends::KeyValue::Value %>
               <!-- Details for custom translation. -->
               <td><span class="badge badge-success"><%= k %></span></td>
-              <td><code>
-                  <a rel="popover" data-title="<%= t 'table.popover.my', 'My translation' %>"
-                    data-content='<%= v %>' data-trigger="hover"><%= truncate v %></a>
-              </code></td>
               <td>
-                <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
+                <code>
+                  <a rel="popover" data-title="<%= t 'table.popover.my', 'My translation' %>"
+                    data-content='<%= h(v) %>' data-trigger="hover"><%= h(truncate(v)) %></a>
+                </code>
+              </td>
+              <td>
+                <a href="#custom-translations" data-choose="<%= h(k) %>" data-v='<%= h(v) %>'
                   class="btn btn-mini"><%= t 'table.edit.my', 'Edit' %></a>
                 <a href="<%= del_url k %>" data-confirm="<%= t 'table.confirm', 'Are you sure?' %>"
                   class="btn btn-mini btn-danger"><%= t 'table.delete', 'Delete' %></a>
@@ -76,12 +78,14 @@
             <% else %>
               <!-- Details for default translation. -->
               <td><span class="badge"><%= k %></span></td>
-              <td><code>
-                <a rel="popover" data-title="<%= t 'table.popover.default', 'Default translation' %>"
-                  data-content='<%= v %>' data-trigger="hover"><%= truncate v %></a>
-              </code></td>
               <td>
-                <a href="#custom-translations" data-choose="<%= k %>" data-v='<%= v %>'
+                <code>
+                  <a rel="popover" data-title="<%= t 'table.popover.default', 'Default translation' %>"
+                    data-content='<%= h(v) %>' data-trigger="hover"><%= h(truncate(v)) %></a>
+                </code>
+              </td>
+              <td>
+                <a href="#custom-translations" data-choose="<%= h(k) %>" data-v='<%= h(v) %>'
                   class="btn btn-mini"><%= t 'table.edit.default', 'Edit' %></a>
               </td>
             <% end %>
