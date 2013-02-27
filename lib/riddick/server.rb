@@ -52,6 +52,10 @@ module Riddick
         s = v.to_s
         s.size > l ? s.first(l) + t('truncation', '...') : s
       end
+
+      def h(text)
+        Rack::Utils.escape_html(text)
+      end
     end
 
     # Render index page with all translations.
