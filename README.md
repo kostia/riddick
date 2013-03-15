@@ -70,7 +70,7 @@ riddick:
       default: 'Edit'
     delete: 'Delete'
     confirm: 'Are you sure?'
-  notice
+  notice:
     empty: 'You have no translations yet.'
     set:
       success: 'Translation successfully stored!'
@@ -190,6 +190,22 @@ end
 __Details__: Normally your using a proxy server like NGinx or Apache in front of your app.
 Unfortunately the assets from a mounted Sinatra app will not be served because
 they aren't in the `public` directory of your app.
+
+### You are using redis not only for storing translations
+
+If your are using redis to store other stuff you can separate your I18n translations in namespace. Please use redis-namespace gem.
+```ruby
+# Gemfile
+gem 'redis-namespace'
+```
+
+Change your configuration in i18n.rb
+```ruby
+#  config/initializers/i18n.rb
+I18n.backend = I18n::Backend::Chain.new I18n::Backend::KeyValue.new(Redis::Namespace.new(:riddick)), I18n.backend
+```
+
+Your I18n translations will be stored in `riddick` namespace.
 
 ## Internals
 
