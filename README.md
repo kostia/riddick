@@ -1,5 +1,6 @@
 # Riddick
 
+[![Build Status](https://travis-ci.org/kostia/riddick.png)](https://travis-ci.org/kostia/riddick)
 [![Code Climate](https://codeclimate.com/github/kostia/riddick.png)](https://codeclimate.com/github/kostia/riddick)
 
 Friendly GUI for managing your I18n translations.
