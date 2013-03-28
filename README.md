@@ -1,3 +1,5 @@
+![Riddick](https://raw.github.com/kostia/riddick/master/riddick.png)
+
 # Riddick
 
 [![Build Status](https://travis-ci.org/kostia/riddick.png)](https://travis-ci.org/kostia/riddick)
