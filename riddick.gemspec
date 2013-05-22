@@ -19,10 +19,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'redis'
   gem.add_dependency 'sinatra'
   gem.add_development_dependency 'activesupport', '>= 3.0.0'
-  gem.add_development_dependency 'capybara'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rack-test'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'webrat'
   gem.add_development_dependency 'yajl-ruby'
 end
