@@ -1,5 +1,5 @@
 module Riddick
-  module Backends
+  module Backend
     # Generic key-value backend (for custom translations).
     class KeyValue
       attr_reader :i18n_backend

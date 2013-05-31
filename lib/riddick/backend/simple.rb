@@ -1,5 +1,5 @@
 module Riddick
-  module Backends
+  module Backend
     # Wrapper aroud I18n::Backend::Simple.
     class Simple
       attr_reader :i18n_backend

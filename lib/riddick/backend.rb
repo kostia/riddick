@@ -1,19 +1,19 @@
 module Riddick
   # Main interface for the server to interoperate with I18n the backends.
-  module Backends
+  module Backend
     class << self
       attr_writer :chain, :simple, :key_value
 
-      # Return a Riddick::Backends::Simple wrapped around a I18n::Backend::Simple.
+      # Return a Riddick::Backend::Simple wrapped around a I18n::Backend::Simple.
       # It iterates over the backends in the chain and takes the first one found of required type.
       def simple
-        @simple ||= Riddick::Backends::Simple.new(find_backend(I18n::Backend::Simple))
+        @simple ||= Riddick::Backend::Simple.new(find_backend(I18n::Backend::Simple))
       end
 
-      # Return a Riddick::Backends::Redis wrapped around a I18n::Backend::KeyValue.
+      # Return a Riddick::Backend::Redis wrapped around a I18n::Backend::KeyValue.
       # It iterates over the backends in the chain and takes the first one found of required type.
       def key_value
-        @key_value ||= Riddick::Backends::Redis.new(find_backend(I18n::Backend::KeyValue))
+        @key_value ||= Riddick::Backend::Redis.new(find_backend(I18n::Backend::KeyValue))
       end
 
       # Returns the chain. By default it's I18n.backend (which is assumed to be a I18n::Backend::Chain).

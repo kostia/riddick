@@ -60,7 +60,7 @@
         </tr>
         <% @translations.each_pair do |k, v| %>
           <tr>
-            <% if v.kind_of? Riddick::Backends::KeyValue::Value %>
+            <% if v.kind_of? Riddick::Backend::KeyValue::Value %>
               <!-- Details for custom translation. -->
               <td><span class="badge badge-success"><%= k %></span></td>
               <td>

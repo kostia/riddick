@@ -8,7 +8,7 @@ module Riddick
   class Server < Sinatra::Base
     # I18n load the fallback translations lazy.
     # To correctly display the default translations, we have to ensure they are loaded on startup.
-    Riddick::Backends.simple.init_translations
+    Riddick::Backend.simple.init_translations
 
     helpers do
       # Build an internal URL.
@@ -60,21 +60,21 @@ module Riddick
 
     # Render index page with all translations.
     get '/' do
-      predefined = Riddick::Backends.simple.translations
-      custom = Riddick::Backends.key_value.translations
+      predefined = Riddick::Backend.simple.translations
+      custom = Riddick::Backend.key_value.translations
       @translations = predefined.merge custom
       erb :index
     end
 
     # Render index page with default translations only.
     get '/default' do
-      @translations = Riddick::Backends.simple.translations
+      @translations = Riddick::Backend.simple.translations
       erb :index
     end
 
     # Render index page with custom translations only.
     get '/my' do
-      @translations = Riddick::Backends.key_value.translations
+      @translations = Riddick::Backend.key_value.translations
       erb :index
     end
 
@@ -85,7 +85,7 @@ module Riddick
     post '/set' do
       k, v = params[:k], params[:v]
       if k && v && !k.empty? && !v.empty?
-        Riddick::Backends.store_translation k, v
+        Riddick::Backend.store_translation k, v
         session[:flash_success] = t('notice.set.success', 'Translation successfully stored!')
       else
         session[:flash_error] = t('notice.set.error', 'Error: either path or translation is empty!')
@@ -99,7 +99,7 @@ module Riddick
     get '/del' do
       k = params[:k]
       if k && !k.empty?
-        Riddick::Backends.delete_translation k
+        Riddick::Backend.delete_translation k
         session[:flash_success] = t('notice.del.success', 'Translation successfully deleted!')
       else
         session[:flash_error] = t('notice.del.error', 'Error: no such key or key empty!')

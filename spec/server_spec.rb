@@ -14,8 +14,8 @@ describe 'Riddick::Server', type: :request do
   let(:kv_be) { mock }
 
   before do
-    Riddick::Backends.simple = s_be
-    Riddick::Backends.key_value = kv_be
+    Riddick::Backend.simple = s_be
+    Riddick::Backend.key_value = kv_be
 
     s_be.should_receive :init_translations # Assert translations are initialized on load
 
@@ -26,8 +26,8 @@ describe 'Riddick::Server', type: :request do
       'en.k2' => 'default-v2',
     })
     kv_be.stub(:translations).and_return({
-      'en.k2' => Riddick::Backends::Redis::Value.new('"my-v2"'),
-      'en.k3' => Riddick::Backends::Redis::Value.new('"my-v3"'),
+      'en.k2' => Riddick::Backend::Redis::Value.new('"my-v2"'),
+      'en.k3' => Riddick::Backend::Redis::Value.new('"my-v3"'),
     })
   end
 
@@ -64,11 +64,11 @@ describe 'Riddick::Server', type: :request do
   describe 'POST /set' do
     context 'with valid params' do
       it 'should store translation and redirect to my translation' do
-        Riddick::Backends.should_receive(:store_translation).with 'en.k1', 'my-v1' do
+        Riddick::Backend.should_receive(:store_translation).with 'en.k1', 'my-v1' do
           kv_be.stub(:translations).and_return({
-            'en.k1' => Riddick::Backends::Redis::Value.new('"my-v1"'),
-            'en.k2' => Riddick::Backends::Redis::Value.new('"my-v2"'),
-            'en.k3' => Riddick::Backends::Redis::Value.new('"my-v3"'),
+            'en.k1' => Riddick::Backend::Redis::Value.new('"my-v1"'),
+            'en.k2' => Riddick::Backend::Redis::Value.new('"my-v2"'),
+            'en.k3' => Riddick::Backend::Redis::Value.new('"my-v3"'),
           })
         end
         post '/set', k: 'en.k1', v: 'my-v1'
@@ -83,7 +83,7 @@ describe 'Riddick::Server', type: :request do
 
     context 'with incorrect params' do
       it 'should not try to store translation and render index' do
-        Riddick::Backends.should_not_receive :store_translation
+        Riddick::Backend.should_not_receive :store_translation
 
         post '/set', k: 'en.k1', v: ''
         follow_redirect!
@@ -103,9 +103,9 @@ describe 'Riddick::Server', type: :request do
   describe 'GET /del' do
     context 'with valid key' do
       it 'should delete translation and redirect root' do
-        Riddick::Backends.should_receive(:delete_translation).with 'en.k2' do
+        Riddick::Backend.should_receive(:delete_translation).with 'en.k2' do
           kv_be.stub(:translations).and_return({
-            'en.k3' => Riddick::Backends::Redis::Value.new('"my-v3"'),
+            'en.k3' => Riddick::Backend::Redis::Value.new('"my-v3"'),
           })
         end
         get '/del', k: 'en.k2'
@@ -119,7 +119,7 @@ describe 'Riddick::Server', type: :request do
 
     context 'with invalid key' do
       it 'should delete translation and redirect root' do
-        Riddick::Backends.should_not_receive :delete_translation
+        Riddick::Backend.should_not_receive :delete_translation
         get '/del', k: ''
         follow_redirect!
         last_response.should be_ok

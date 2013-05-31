@@ -1,5 +1,5 @@
 module Riddick
-  module Backends
+  module Backend
     class KeyValue
       # Generic value class. Purpose is to determine whether a value is
       # a custom translation or predefined.
